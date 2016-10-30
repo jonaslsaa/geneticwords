@@ -13,17 +13,17 @@ import string
 import random
 
 # Properties
-target_word = "mystical"
+target_word = "more"
 showEvery = 1
-PopulationSize = 20
-minLength = 2
-maxLength = len(target_word)+2
-mutationRate = 1 # / 100 %
+PopulationSize = 10
+minLength = len(target_word)
+maxLength = len(target_word)
+mutationRate = 5 # / 100 %
 
 last_generation = []
 current_generation = []
 nGeneration = 0
-
+halfbest = []
 
 def initPop():
     pop = PopulationSize
@@ -44,8 +44,8 @@ def generateWord(length):
 
 def pointGranting(word):
     points = 0
-    if len(word) == len(target_word):
-        points += 3
+    #if len(word) == len(target_word):
+    #    points += 3
         
     for tl in target_word:
         for wl in word:
@@ -55,8 +55,8 @@ def pointGranting(word):
     cl = 0
     for tl in target_word:
         if cl < len(word):
-            tl == word[cl]
-            points += 1
+            if tl == word[cl]:
+                points += 2
             cl += 1
     
     return points
@@ -76,8 +76,9 @@ def selection(): #selection of the best (half the population)
                 print("choose " + i + " with p " + str(pointGranting(i)))
         if(ch == False):
             bestscore -= 1
-                
-    last_population = halfbest #purge
+    #print(last_)
+    last_generation = halfbest #purge
+    #print(halfbest)
 
 def crossover(p1, p2):
     if len(p1) > len(p2): # finding out the shorter word
@@ -86,7 +87,7 @@ def crossover(p1, p2):
         pl = p1
 
     if len(p1) > 2:
-        crossover_point = random.randint(1, len(pl))
+        crossover_point = random.randint(1, len(pl)-1)
     else:
         crossover_point = 1
     crossover = p1[:crossover_point]+p2[crossover_point:]
@@ -104,13 +105,13 @@ def repopulation(): # doubling popualtion
 def mutation():
     ci = 0
     for i in current_generation:
-        rnd = random.randint(0, 100)
-        if rnd < mutationRate:
-            if random.choice([True, False]):
-                current_generation[ci] = i + random.choice( string.ascii_letters.lower() )
-            else:
-                if (len(i)-1 > minLength):
-                    current_generation[ci] = i[:-1]
+        #rnd = random.randint(0, 100)
+        #if rnd < mutationRate:
+        #    if random.choice([True, False]):
+        #        current_generation[ci] = i + random.choice( string.ascii_letters.lower() )
+        #    else:
+        #        if (len(i)-1 > minLength):
+        #            current_generation[ci] = i[:-1]
         rnd = random.randint(0, 100)
         if rnd < mutationRate:
             ri = list(i)
@@ -133,7 +134,7 @@ while 1:
     #    print("\n")
     if (nGeneration % showEvery) == 0:
         print("Generation: "+str(nGeneration))
-        print("Current Generations best: '" + bestWord + "' with a score of "+str(pointGranting(bestWord)) )
+        print("Current Generations best: '" + bestWord + "' with a score of "+str(pointGranting(bestWord))+" / "+str(pointGranting(target_word)) )
         input(": next generations ?\n")
 
     selection()
