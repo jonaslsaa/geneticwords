@@ -13,8 +13,8 @@ import string
 import random
 
 # Properties
-target_word = "adrian"
-showEvery = 10
+target_word = "julian"
+showEvery = 5
 PopulationSize = 50
 minLength = len(target_word)
 maxLength = len(target_word)
@@ -139,7 +139,10 @@ while 1:
     if (nGeneration % showEvery) == 0:
         print("Generation: "+str(nGeneration))
         print("Current Generations best: '" + bestWord + "' with a score of "+str(pointGranting(bestWord))+" / "+str(pointGranting(target_word)) )
-        input(": next generations ?\n")
+        inc = input(": next generations ?\n")
+        if inc == "show":
+            print(last_generation)
+            input("-\n")
 
     selection()
     repopulation()
