@@ -13,12 +13,12 @@ import string
 import random
 
 # Properties
-target_word = "more"
-showEvery = 1
-PopulationSize = 10
+target_word = "adrian"
+showEvery = 10
+PopulationSize = 50
 minLength = len(target_word)
 maxLength = len(target_word)
-mutationRate = 10 # / 100 %
+mutationRate = 6 # / 100 %
 
 last_generation = []
 current_generation = []
@@ -74,7 +74,7 @@ def selection(): #selection of the best (half the population)
                 last_generation.remove(i)
                 bestscore = pointGranting(i)
                 ch = True
-                print("choose " + i + " with p " + str(pointGranting(i)))
+                #print("choose " + i + " with p " + str(pointGranting(i)))
         if(ch == False):
             bestscore -= 1
     #print(last_)
@@ -92,7 +92,7 @@ def crossover(p1, p2):
     else:
         crossover_point = 1
     crossover = p1[:crossover_point]+p2[crossover_point:]
-    print("("+str(crossover_point)+"): "+p1+"+"+p2+" = "+crossover)
+    #print("("+str(crossover_point)+"): "+p1+"+"+p2+" = "+crossover)
     return crossover
 
 def repopulation(): # doubling popualtion
@@ -120,7 +120,7 @@ def mutation():
             ri = list(i)
             ri[ random.randint(0, len(i)-1 ) ] = random.choice( string.ascii_letters.lower() )
             current_generation[ci] = ''.join(ri)
-            print("mutated")
+            #print("mutated")
         ci += 1
             
 
