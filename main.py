@@ -18,14 +18,14 @@ showEvery = 1
 PopulationSize = 10
 minLength = len(target_word)
 maxLength = len(target_word)
-mutationRate = 5 # / 100 %
+mutationRate = 10 # / 100 %
 
 last_generation = []
 current_generation = []
 nGeneration = 0
-halfbest = []
 
 def initPop():
+    global last_generation
     pop = PopulationSize
     while pop > 0:
         last_generation.append( generateWord(random.randint(minLength, maxLength)) )
@@ -63,6 +63,7 @@ def pointGranting(word):
 
 
 def selection(): #selection of the best (half the population)
+    global last_generation
     halfbest = []
     bestscore = pointGranting(target_word)+1
     while len(halfbest) < PopulationSize/2:
@@ -95,6 +96,7 @@ def crossover(p1, p2):
     return crossover
 
 def repopulation(): # doubling popualtion
+    global last_generation
     for i in last_generation:
         nK = 0
         while nK < 2:
@@ -103,6 +105,7 @@ def repopulation(): # doubling popualtion
             nK += 1
 
 def mutation():
+    global current_generation
     ci = 0
     for i in current_generation:
         #rnd = random.randint(0, 100)
@@ -117,6 +120,7 @@ def mutation():
             ri = list(i)
             ri[ random.randint(0, len(i)-1 ) ] = random.choice( string.ascii_letters.lower() )
             current_generation[ci] = ''.join(ri)
+            print("mutated")
         ci += 1
             
 
