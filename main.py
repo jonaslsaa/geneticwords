@@ -13,12 +13,14 @@ import string
 import random
 
 # Properties
-target_word = "julian"
+target_word = "to be or not to be"
 showEvery = 5
 PopulationSize = 50
 minLength = len(target_word)
 maxLength = len(target_word)
-mutationRate = 6 # / 100 %
+mutationRate = 10 # / 100 %
+
+usable_chars = 'abcdefghijklmnopqrstuvwxyz '
 
 last_generation = []
 current_generation = []
@@ -32,7 +34,8 @@ def initPop():
         pop -= 1
 
 def generateWord(length):
-    l = string.ascii_letters.lower()
+    global usable_chars
+    l = usable_chars
     cLength = 0
     rWord = ""
     
@@ -51,6 +54,9 @@ def pointGranting(word):
         for wl in word:
             if tl == wl:
                 points += 1
+
+    for l in target_word:
+        points = points - ( word.count(l) - target_word.count(l) )
 
     cl = 0
     for tl in target_word:
@@ -106,6 +112,7 @@ def repopulation(): # doubling popualtion
 
 def mutation():
     global current_generation
+    global usable_chars
     ci = 0
     for i in current_generation:
         #rnd = random.randint(0, 100)
@@ -118,7 +125,7 @@ def mutation():
         rnd = random.randint(0, 100)
         if rnd < mutationRate:
             ri = list(i)
-            ri[ random.randint(0, len(i)-1 ) ] = random.choice( string.ascii_letters.lower() )
+            ri[ random.randint(0, len(i)-1 ) ] = random.choice( usable_chars )
             current_generation[ci] = ''.join(ri)
             #print("mutated")
         ci += 1
